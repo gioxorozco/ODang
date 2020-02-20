@@ -1,0 +1,5 @@
+.DS_Store
+*.class
+Code/target/
+*.iml
+Code/.idea/
