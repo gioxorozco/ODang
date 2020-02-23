@@ -1,7 +1,5 @@
 package Tokenizer.Tokens;
 
-import Tokenizer.Tokenizer;
-
 public class OperatorToken implements Token {
     public final String name;
 

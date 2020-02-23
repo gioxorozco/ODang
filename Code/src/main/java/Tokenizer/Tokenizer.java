@@ -1,7 +1,6 @@
 package Tokenizer;
 
 import Tokenizer.Tokens.*;
-
 import java.util.List;
 import java.util.ArrayList;
 
