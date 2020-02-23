@@ -4,7 +4,6 @@ import Tokenizer.Tokens.*;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.regex.*;
 
 public class Tokenizer {
 
