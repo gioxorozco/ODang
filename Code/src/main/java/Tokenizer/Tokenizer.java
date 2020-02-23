@@ -60,17 +60,17 @@ public class Tokenizer {
                 case "<":
                     if(input[inputPos] == '=') {
                         inputPos++;
-                        return new OperatorToken(("<="));
+                        return new OperatorToken("<=");
                     }
                 case ">":
                     if (input[inputPos] == '=') {
                         inputPos++;
-                        return new OperatorToken((">="));
+                        return new OperatorToken(">=");
                     }
                 case "=":
                     if (input[inputPos] == '=') {
                         inputPos++;
-                        return new OperatorToken(("=="));
+                        return new OperatorToken("==");
                     }
                 default:
                     return new OperatorToken(symbols);
