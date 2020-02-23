@@ -1,4 +1,4 @@
-package Tokenizer;
+package Tokenizer.Tokens;
 
 public class ReservedWordToken implements Token {
     public final String name;

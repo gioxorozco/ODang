@@ -1,4 +1,4 @@
-package Tokenizer;
+package Tokenizer.Tokens;
 
 public class IntegerToken implements Token {
     public final int number;

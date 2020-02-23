@@ -1,7 +1,10 @@
 package Tokenizer;
 
+import Tokenizer.Tokens.*;
+
 import java.util.List;
 import java.util.ArrayList;
+import java.util.regex.*;
 
 public class Tokenizer {
 
@@ -23,29 +26,98 @@ public class Tokenizer {
     }
 
     /**
-     * @TODO complete this, stuff like 'while', 'for' etc
+     * tries to tokenize an operator or paren
+     * @TODO finish adding operators
+     * @return Token or null
+     */
+    private Token tryTokenizeOperatorOrParen() {
+        String symbols = "";
+
+        //regex containing the valid operators in the language
+        if(validPosition() &&
+                String.valueOf(input[inputPos]).matches("[(){}+=\\-*/!%><&|]")) {
+
+            symbols += input[inputPos];
+            inputPos++;
+
+            switch (symbols) {
+                case "(":
+                    return new LeftParenToken();
+                case ")":
+                    return new RightParenToken();
+                case "{":
+                    return new LeftCurlyToken();
+                case "}":
+                    return new RightCurlyToken();
+                case "&":
+                    if (input[inputPos] == '&') {
+                        inputPos++;
+                        return new OperatorToken("&&");
+                    } else return null;
+                case "|":
+                    if (input[inputPos] == '|') {
+                        inputPos++;
+                        return new OperatorToken("||");
+                    } else return null;
+                case "<":
+                    if(input[inputPos] == '=') {
+                        inputPos++;
+                        return new OperatorToken(("<="));
+                    }
+                case ">":
+                    if (input[inputPos] == '=') {
+                        inputPos++;
+                        return new OperatorToken((">="));
+                    }
+                case "=":
+                    if (input[inputPos] == '=') {
+                        inputPos++;
+                        return new OperatorToken(("=="));
+                    }
+                default:
+                    return new OperatorToken(symbols);
+            }
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @TODO finish adding reserved words
      * @return ReservedWordToken or null
      */
-    private Token tryTokenizeReservedWordorVar() {
+    private Token tryTokenizeReservedWordOrVar() {
         String letters = "";
 
         if(validPosition() && Character.isLetter(input[inputPos])) {
             letters += input[inputPos];
             inputPos++;
-
             while (validPosition() && Character.isLetterOrDigit(input[inputPos])) {
                 letters += input[inputPos];
                 inputPos++;
             }
-            if (letters.equals("if"))
-                return new IfToken();
-            else if (letters.equals("else"))
-                return new ElseToken();
-            else
-                return new VariableToken(letters);
+            switch (letters) {
+                case "if":
+                    return new IfToken();
+                case "for":
+                    return new ForToken();
+                case "else":
+                    return new ElseToken();
+                case "while":
+                    return new WhileToken();
+                case "return":
+                    return new ReturnToken();
+                case "class":
+                    return new ClassToken();
+                case "break":
+                    return new BreakToken();
+                default:
+                    return new VariableToken(letters);
+            }
 
-        } else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -87,6 +159,7 @@ public class Tokenizer {
             digits += input[inputPos];
             inputPos++;
         }
+
         if (digits.length() > 0) {
             return new IntegerToken(Integer.parseInt(digits));
         } else {
@@ -101,12 +174,13 @@ public class Tokenizer {
      * @throws TokenizerException if no valid token is found
      */
     private Token createToken() throws TokenizerException {
-        Token token = tryTokenizeReservedWordorVar();
-
+        Token token = tryTokenizeOperatorOrParen();
         while(true) {
             if (token == null) {
+                token = tryTokenizeReservedWordOrVar();
+            }
+            if (token == null) {
                 token = tryTokenizeInt();
-                continue;
             }
             if (token == null) {
                 throw new TokenizerException("Not a valid token");
@@ -146,7 +220,7 @@ public class Tokenizer {
 
     //main for testing purposes
     public static void main(String[] args) {
-        String testString = "else Hopefully this 123 works";
+        String testString = "if ( x == 10) { return x - 132 }";
         Tokenizer testTokenizer = new Tokenizer(testString.toCharArray());
         try {
             List<Token> result = testTokenizer.tokenize();
