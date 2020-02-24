@@ -131,6 +131,6 @@ public class TokenTest {
         final String testString = " ";
         final Tokenizer testTokenizer = new Tokenizer(testString);
         Assertions.assertThrows(TokenizerException.class,
-                        () -> {testTokenizer.tokenize();});
+                        () -> testTokenizer.tokenize());
     }
 }
