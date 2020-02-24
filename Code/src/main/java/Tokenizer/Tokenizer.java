@@ -15,15 +15,6 @@ public class Tokenizer {
     }
 
     /**
-     * Checks the current position in the list, done a lot in this code
-     * so wrote a method for it
-     * @return true or false depending on current position on the list
-     */
-    private boolean validPosition() {
-        return inputPos < input.length;
-    }
-
-    /**
      * tries to tokenize an operator or paren
      * @TODO finish adding operators
      * @return Token or null
@@ -81,8 +72,27 @@ public class Tokenizer {
     }
 
     /**
+     * tries to tokenize a String, starting and ending with a double quote
+     * @return StringToken or null
+     */
+    private StringToken tryTokenizeString() {
+        String string = "";
+
+        if (validPosition() && input[inputPos] == '"') {
+            inputPos++;
+
+            while (validPosition() && input[inputPos] != '"') {
+                string += input[inputPos];
+                inputPos++;
+            }
+            inputPos++;
+            return new StringToken(string);
+        } else
+            return null;
+    }
+    /**
      * @TODO finish adding reserved words
-     * @return ReservedWordToken or null
+     * @return Token or null
      */
     private Token tryTokenizeReservedWordOrVar() {
         String letters = "";
@@ -178,6 +188,9 @@ public class Tokenizer {
                 token = tryTokenizeReservedWordOrVar();
             }
             if (token == null) {
+                token = tryTokenizeString();
+            }
+            if (token == null) {
                 token = tryTokenizeInt();
             }
             if (token == null) {
@@ -195,6 +208,15 @@ public class Tokenizer {
                 Character.isWhitespace(input[inputPos])) {
             inputPos++;
         }
+    }
+
+    /**
+     * Checks the current position in the list, done a lot in this code
+     * so wrote a method for it
+     * @return true or false depending on current position on the list
+     */
+    private boolean validPosition() {
+        return inputPos < input.length;
     }
 
     /**
@@ -218,7 +240,7 @@ public class Tokenizer {
 
     //main for testing purposes
     public static void main(String[] args) {
-        String testString = "if ( x == 10) { return x - 132 }";
+        String testString = "if ( \"x == 10\") { \n return x - 132 }";
         Tokenizer testTokenizer = new Tokenizer(testString.toCharArray());
         try {
             List<Token> result = testTokenizer.tokenize();

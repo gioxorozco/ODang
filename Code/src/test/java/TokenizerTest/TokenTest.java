@@ -2,7 +2,10 @@ package TokenizerTest;
 
 import Tokenizer.*;
 import java.util.List;
-import java.util.ArrayList;
+
+import Tokenizer.Tokens.IntegerToken;
+import Tokenizer.Tokens.StringToken;
+import Tokenizer.Tokens.Token;
 import org.junit.jupiter.api.*;
 
 public class TokenTest {
@@ -15,6 +18,14 @@ public class TokenTest {
         Assertions.assertEquals(IntegerToken.class, testList.get(0).getClass());
     }
 
+
+    @Test
+    public void checkCorrectTokenizedString() throws TokenizerException {
+        String testString = "\"string\"";
+        Tokenizer testTokenizer = new Tokenizer(testString.toCharArray());
+        List<Token> testList = testTokenizer.tokenize();
+        Assertions.assertEquals(StringToken.class, testList.get(0).getClass());
+    }
     @Test
     public void checkThrowsExceptions() {
         String testString = " ";
