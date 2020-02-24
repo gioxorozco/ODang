@@ -94,7 +94,7 @@ public class Tokenizer {
      * @TODO finish adding reserved words
      * @return Token or null
      */
-    private Token tryTokenizeReservedWordOrVar() {
+    private Token tryTokenizeReservedWordOrIdentifier() {
         String letters = "";
 
         if(validPosition() && Character.isLetter(input[inputPos])) {
@@ -120,7 +120,7 @@ public class Tokenizer {
                 case "break":
                     return new BreakToken();
                 default:
-                    return new VariableToken(letters);
+                    return new IdentifierToken(letters);
             }
 
         } else {
@@ -129,11 +129,11 @@ public class Tokenizer {
     }
 
     /**
-     * Tries to tokenize a char sequence as a variable
-     * @return VariableToken or null
+     * Tries to tokenize a char sequence as an identifier
+     * @return IdentifierToken or null
      */
     @Deprecated
-    private VariableToken tryTokenizeVariable() {
+    private IdentifierToken tryTokenizeVariable() {
         String letters = "";
 
         if (validPosition() && Character.isLetter(input[inputPos])) {
@@ -144,7 +144,7 @@ public class Tokenizer {
                 letters += input[inputPos];
                 inputPos++;
             }
-            return new VariableToken(letters);
+            return new IdentifierToken(letters);
         } else {
             return null;
         }
@@ -185,7 +185,7 @@ public class Tokenizer {
         Token token = tryTokenizeOperatorOrParen();
         while(true) {
             if (token == null) {
-                token = tryTokenizeReservedWordOrVar();
+                token = tryTokenizeReservedWordOrIdentifier();
             }
             if (token == null) {
                 token = tryTokenizeString();

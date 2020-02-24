@@ -1,9 +1,8 @@
 package TokenizerTest;
 
 import Tokenizer.*;
-import java.util.List;
-
 import Tokenizer.Tokens.*;
+import java.util.List;
 import org.junit.jupiter.api.*;
 
 public class TokenTest {
@@ -94,11 +93,11 @@ public class TokenTest {
         Assertions.assertEquals(WhileToken.class, testList.get(0).getClass());
     }
     @Test
-    public void checkCorrectTokenizedVariable() throws TokenizerException {
-        final String test = "thisisavariable";
+    public void checkCorrectTokenizedIdentifier() throws TokenizerException {
+        final String test = "thisisanidentifier";
         final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
         final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(VariableToken.class, testList.get(0).getClass());
+        Assertions.assertEquals(IdentifierToken.class, testList.get(0).getClass());
     }
     @Test
     public void checkCorrectTokenizedOperator() throws TokenizerException {
