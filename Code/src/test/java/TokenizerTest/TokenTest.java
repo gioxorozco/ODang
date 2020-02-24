@@ -129,10 +129,8 @@ public class TokenTest {
     @Test
     public void checkThrowsExceptions() {
         final String testString = " ";
-        final Tokenizer testTokenizer = new Tokenizer(testString.toCharArray());
-        final TokenizerException thrown =
-                Assertions.assertThrows(TokenizerException.class,
-                        testTokenizer::tokenize,
-                        "Expected List of tokens");
+        final Tokenizer testTokenizer = new Tokenizer(testString);
+        Assertions.assertThrows(TokenizerException.class,
+                        () -> {testTokenizer.tokenize();});
     }
 }
