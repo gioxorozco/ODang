@@ -2,111 +2,129 @@ package TokenizerTest;
 
 import Tokenizer.*;
 import Tokenizer.Tokens.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.*;
 
 public class TokenTest {
 
+    public static void checkTokenizes(final String input,
+                                      Token... expected) throws TokenizerException {
+        final List<Token> expectedTokens = new ArrayList<>();
+        for (final Token token : expected)
+            expectedTokens.add(token);
+        final Tokenizer testTokenizer = new Tokenizer(input);
+        final List<Token> receivedTokens = testTokenizer.tokenize();
+        Assertions.assertEquals(expectedTokens, receivedTokens);
+    }
     @Test
     public void checkCorrectTokenizedInteger() throws TokenizerException {
-        final String testInt = "1234";
-        final Tokenizer testTokenizer = new Tokenizer(testInt.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(IntegerToken.class, testList.get(0).getClass());
+        checkTokenizes("1234", new IntegerToken(1234));
     }
-
     @Test
     public void checkCorrectTokenizedString() throws TokenizerException {
-        final String testString = "\"string\"";
-        final Tokenizer testTokenizer = new Tokenizer(testString.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(StringToken.class, testList.get(0).getClass());
+        checkTokenizes("\"string\"", new StringToken("string"));
     }
     @Test
     public void checkCorrectTokenizedLParen() throws TokenizerException {
-        final String test = "(";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(LeftParenToken.class, testList.get(0).getClass());
+        checkTokenizes("(", new LeftParenToken());
     }
     @Test
     public void checkCorrectTokenizedRParen() throws TokenizerException {
-        final String test = ")";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(RightParenToken.class, testList.get(0).getClass());
+        checkTokenizes(")", new RightParenToken());
     }
     @Test
     public void checkCorrectTokenizedLCurly() throws TokenizerException {
-        final String test = "{";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(LeftCurlyToken.class, testList.get(0).getClass());
+        checkTokenizes("{", new LeftCurlyToken());
     }
     @Test
     public void checkCorrectTokenizedRCurly() throws TokenizerException {
-        final String test = "}";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(RightCurlyToken.class, testList.get(0).getClass());
+        checkTokenizes("}", new RightCurlyToken());
     }
     @Test
     public void checkCorrectTokenizedIf() throws TokenizerException {
-        final String test = "if";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(IfToken.class, testList.get(0).getClass());
+        checkTokenizes("if", new IfToken());
     }
     @Test
     public void checkCorrectTokenizedElse() throws TokenizerException {
-        final String test = "else";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(ElseToken.class, testList.get(0).getClass());
+        checkTokenizes("else", new ElseToken());
     }
     @Test
     public void checkCorrectTokenizedBreak() throws TokenizerException {
-        final String test = "break";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(BreakToken.class, testList.get(0).getClass());
+        checkTokenizes("break", new BreakToken());
     }
     @Test
     public void checkCorrectTokenizedReturn() throws TokenizerException {
-        final String test = "return";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(ReturnToken.class, testList.get(0).getClass());
+        checkTokenizes("return", new ReturnToken());
     }
     @Test
     public void checkCorrectTokenizedFor() throws TokenizerException {
-        final String test = "for";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(ForToken.class, testList.get(0).getClass());
+        checkTokenizes("for", new ForToken());
     }
     @Test
     public void checkCorrectTokenizedWhile() throws TokenizerException {
-        final String test = "while";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(WhileToken.class, testList.get(0).getClass());
+        checkTokenizes("while", new WhileToken());
     }
     @Test
     public void checkCorrectTokenizedIdentifier() throws TokenizerException {
-        final String test = "thisisanidentifier";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        Assertions.assertEquals(IdentifierToken.class, testList.get(0).getClass());
+        checkTokenizes("ifelsewhile", new IdentifierToken("ifelsewhile"));
     }
     @Test
-    public void checkCorrectTokenizedOperator() throws TokenizerException {
-        final String test = "+=-*/!%><&&||";
-        final Tokenizer testTokenizer = new Tokenizer(test.toCharArray());
-        final List<Token> testList = testTokenizer.tokenize();
-        for (int i = 0; i < testList.size(); i++) {
-            Assertions.assertEquals(OperatorToken.class, testList.get(i).getClass());
-        }
+    public void checkCorrectTokenizedPlus() throws TokenizerException {
+        checkTokenizes("+", new OperatorToken("+"));
+    }
+    @Test
+    public void checkCorrectTokenizedMinus() throws TokenizerException {
+        checkTokenizes("-", new OperatorToken("-"));
+    }
+    @Test
+    public void checkCorrectTokenizedEquals() throws TokenizerException {
+        checkTokenizes("=", new OperatorToken("="));
+    }
+    @Test
+    public void checkCorrectTokenizedMultiply() throws TokenizerException {
+        checkTokenizes("*", new OperatorToken("*"));
+    }
+    @Test
+    public void checkCorrectTokenizedDivision() throws TokenizerException {
+        checkTokenizes("/", new OperatorToken("/"));
+    }
+    @Test
+    public void checkCorrectTokenizedNegation() throws TokenizerException {
+        checkTokenizes("!", new OperatorToken("!"));
+    }
+    @Test
+    public void checkCorrectTokenizedModulo() throws TokenizerException {
+        checkTokenizes("%", new OperatorToken("%"));
+    }
+    @Test
+    public void checkCorrectTokenizedGreaterThan() throws TokenizerException {
+        checkTokenizes(">", new OperatorToken(">"));
+    }
+    @Test
+    public void checkCorrectTokenizedLessThan() throws TokenizerException {
+        checkTokenizes("<", new OperatorToken("<"));
+    }
+    @Test
+    public void checkCorrectTokenizedAnd() throws TokenizerException {
+        checkTokenizes("&&", new OperatorToken("&&"));
+    }
+    @Test
+    public void checkCorrectTokenizedOr() throws TokenizerException {
+        checkTokenizes("||", new OperatorToken("||"));
+    }
+    @Test
+    public void checkCorrectTokenizedGreaterThanEquals() throws TokenizerException {
+        checkTokenizes(">=", new OperatorToken(">="));
+    }
+    @Test
+    public void checkCorrectTokenizedLessThanEquals() throws TokenizerException {
+        checkTokenizes("<=", new OperatorToken("<="));
+    }
+    @Test
+    public void checkCorrectTokenizedReferenceEquals() throws TokenizerException {
+        checkTokenizes("==", new OperatorToken("=="));
     }
     @Test
     public void checkThrowsExceptions() {

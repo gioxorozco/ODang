@@ -13,6 +13,9 @@ public class Tokenizer {
         this.input = input;
         inputPos = 0;
     }
+    public Tokenizer(String tokens) {
+        this(tokens.toCharArray());
+    }
 
     /**
      * tries to tokenize an operator or paren
@@ -39,27 +42,27 @@ public class Tokenizer {
                 case "}":
                     return new RightCurlyToken();
                 case "&":
-                    if (input[inputPos] == '&') {
+                    if (validPosition() && input[inputPos] == '&') {
                         inputPos++;
                         return new OperatorToken("&&");
                     } else return null;
                 case "|":
-                    if (input[inputPos] == '|') {
+                    if (validPosition() && input[inputPos] == '|') {
                         inputPos++;
                         return new OperatorToken("||");
                     } else return null;
                 case "<":
-                    if(input[inputPos] == '=') {
+                    if (validPosition() && input[inputPos] == '=') {
                         inputPos++;
                         return new OperatorToken("<=");
                     }
                 case ">":
-                    if (input[inputPos] == '=') {
+                    if (validPosition() && input[inputPos] == '=') {
                         inputPos++;
                         return new OperatorToken(">=");
                     }
                 case "=":
-                    if (input[inputPos] == '=') {
+                    if (validPosition() && input[inputPos] == '=') {
                         inputPos++;
                         return new OperatorToken("==");
                     }
@@ -226,7 +229,6 @@ public class Tokenizer {
      */
     public List<Token> tokenize() throws TokenizerException {
         List<Token> tokens = new ArrayList<Token>();
-
         while(validPosition()) {
             skipWhitespace();
             if(validPosition()) {
@@ -240,14 +242,14 @@ public class Tokenizer {
 
     //main for testing purposes
     public static void main(String[] args) {
-        String testString = "if ( \"x == 10\") { \n return x - 132 }";
+        String testString = "=";
         Tokenizer testTokenizer = new Tokenizer(testString.toCharArray());
         try {
             List<Token> result = testTokenizer.tokenize();
             System.out.println(result);
         }
         catch (Exception e) {
-            System.out.println("Found Exception: " + e);
+            e.printStackTrace();
         }
 
     }

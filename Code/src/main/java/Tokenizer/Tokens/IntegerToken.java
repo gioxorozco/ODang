@@ -7,4 +7,11 @@ public class IntegerToken implements Token {
         this.number = number;
     }
 
+    public boolean equals(final Object other) {
+        if (other instanceof IntegerToken) {
+            IntegerToken otherVal = (IntegerToken) other;
+            return number == otherVal.number;
+        } else
+            return false;
+    }
 }
