@@ -19,7 +19,6 @@ public class Tokenizer {
 
     /**
      * tries to tokenize an operator or paren
-     * @TODO finish adding operators
      * @return Token or null
      */
     private Token tryTokenizeOperatorOrParen() {
@@ -156,7 +155,7 @@ public class Tokenizer {
 
     /**
      * Tries to tokenize a char sequence as an integer
-     * @return
+     * @return IntegerToken or null
      */
     private IntegerToken tryTokenizeInt() {
         String digits = "";
