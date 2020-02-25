@@ -13,15 +13,16 @@ public class Tokenizer {
         this.input = input;
         inputPos = 0;
     }
+
     public Tokenizer(String tokens) {
         this(tokens.toCharArray());
     }
 
     /**
-     * tries to tokenize an operator or paren
+     * tries to tokenize a non-letter/non-digit symbol
      * @return Token or null
      */
-    private Token tryTokenizeSymbolOrParen() {
+    private Token tryTokenizeNonLetterOrDigitSymbol() {
         String symbols = "";
 
         //regex containing the valid operators in the language
@@ -200,7 +201,7 @@ public class Tokenizer {
      * @throws TokenizerException if no valid token is found
      */
     private Token createToken() throws TokenizerException {
-        Token token = tryTokenizeSymbolOrParen();
+        Token token = tryTokenizeNonLetterOrDigitSymbol();
         while(true) {
             if (token == null) {
                 token = tryTokenizeReservedWordOrIdentifier();
@@ -229,7 +230,7 @@ public class Tokenizer {
     }
 
     /**
-     * Checks the current position in the list, done a lot in this code
+     * Checks the current position in the array, done a lot in this code
      * so wrote a method for it
      * @return true or false depending on current position on the list
      */
@@ -251,13 +252,13 @@ public class Tokenizer {
             }
         }
         if (tokens.isEmpty())
-            throw new TokenizerException("Invalid Input?");
+            throw new TokenizerException("Empty Input");
         else return tokens;
     }
 
     //main for testing purposes
     public static void main(String[] args) {
-        String testString = "=";
+        String testString = " ";
         Tokenizer testTokenizer = new Tokenizer(testString.toCharArray());
         try {
             List<Token> result = testTokenizer.tokenize();

@@ -173,8 +173,16 @@ public class TokenTest {
         checkTokenizes(">=", new OperatorToken(">="));
     }
     @Test
+    public void checkIncorrectlyWrittenGreaterThanEquals() throws TokenizerException {
+        checkTokenizes("=>", new OperatorToken("="), new OperatorToken(">"));
+    }
+    @Test
     public void checkCorrectTokenizedLessThanEquals() throws TokenizerException {
         checkTokenizes("<=", new OperatorToken("<="));
+    }
+    @Test
+    public void checkIncorrectlyWrittenLessThanEquals() throws TokenizerException {
+        checkTokenizes("=<", new OperatorToken("="), new OperatorToken("<"));
     }
     @Test
     public void checkCorrectTokenizedReferenceEquals() throws TokenizerException {
