@@ -21,7 +21,7 @@ public class Tokenizer {
      * tries to tokenize an operator or paren
      * @return Token or null
      */
-    private Token tryTokenizeOperatorOrParen() {
+    private Token tryTokenizeSymbolOrParen() {
         String symbols = "";
 
         //regex containing the valid operators in the language
@@ -200,7 +200,7 @@ public class Tokenizer {
      * @throws TokenizerException if no valid token is found
      */
     private Token createToken() throws TokenizerException {
-        Token token = tryTokenizeOperatorOrParen();
+        Token token = tryTokenizeSymbolOrParen();
         while(true) {
             if (token == null) {
                 token = tryTokenizeReservedWordOrIdentifier();
