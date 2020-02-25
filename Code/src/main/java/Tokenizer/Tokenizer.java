@@ -26,7 +26,7 @@ public class Tokenizer {
 
         //regex containing the valid operators in the language
         if(validPosition() &&
-                String.valueOf(input[inputPos]).matches("[(){}+=\\-*/!%><&|]")) {
+                String.valueOf(input[inputPos]).matches("[;.(){}+=\\-*/!%><&|]")) {
 
             symbols += input[inputPos];
             inputPos++;
@@ -40,6 +40,10 @@ public class Tokenizer {
                     return new LeftCurlyToken();
                 case "}":
                     return new RightCurlyToken();
+                case ";":
+                    return new SemiColonToken();
+                case ".":
+                    return new DotToken();
                 case "&":
                     if (validPosition() && input[inputPos] == '&') {
                         inputPos++;
@@ -111,6 +115,8 @@ public class Tokenizer {
                     return new IfToken();
                 case "for":
                     return new ForToken();
+                case "new":
+                    return new NewToken();
                 case "else":
                     return new ElseToken();
                 case "while":
@@ -121,6 +127,16 @@ public class Tokenizer {
                     return new ClassToken();
                 case "break":
                     return new BreakToken();
+                case "extends":
+                    return new ExtendsToken();
+                case "String":
+                    return new StringTypeToken();
+                case "char":
+                    return new CharTypeToken();
+                case "int":
+                    return new IntTypeToken();
+                case "boolean":
+                    return new BooleanTypeToken();
                 default:
                     return new IdentifierToken(letters);
             }

@@ -67,6 +67,30 @@ public class TokenTest {
         checkTokenizes("while", new WhileToken());
     }
     @Test
+    public void checkCorrectTokenizedNewToken() throws TokenizerException {
+        checkTokenizes("new", new NewToken());
+    }
+    @Test
+    public void checkCorrectTokenizedExtendsToken() throws TokenizerException {
+        checkTokenizes("extends", new ExtendsToken());
+    }
+    @Test
+    public void checkCorrectTokenizedStringType() throws TokenizerException {
+        checkTokenizes("String", new StringTypeToken());
+    }
+    @Test
+    public void checkCorrectTokenizedIntType() throws TokenizerException {
+        checkTokenizes("int", new IntTypeToken());
+    }
+    @Test
+    public void checkCorrectTokenizedCharType() throws TokenizerException {
+        checkTokenizes("char", new CharTypeToken());
+    }
+    @Test
+    public void checkCorrectTokenizedBooleanType() throws TokenizerException {
+        checkTokenizes("boolean", new BooleanTypeToken());
+    }
+    @Test
     public void checkCorrectTokenizedIdentifier() throws TokenizerException {
         checkTokenizes("ifelsewhile", new IdentifierToken("ifelsewhile"));
     }
@@ -127,10 +151,18 @@ public class TokenTest {
         checkTokenizes("==", new OperatorToken("=="));
     }
     @Test
+    public void checkCorrectTokenizedDot() throws TokenizerException {
+        checkTokenizes(".", new DotToken());
+    }
+    @Test
+    public void checkCorrectTokenizedSemiColon() throws TokenizerException {
+        checkTokenizes(";", new SemiColonToken());
+    }
+    @Test
     public void checkThrowsExceptions() {
         final String testString = " ";
         final Tokenizer testTokenizer = new Tokenizer(testString);
         Assertions.assertThrows(TokenizerException.class,
-                        () -> testTokenizer.tokenize());
+                testTokenizer::tokenize);
     }
 }
