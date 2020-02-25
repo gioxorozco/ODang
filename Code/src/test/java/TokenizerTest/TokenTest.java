@@ -23,8 +23,26 @@ public class TokenTest {
         checkTokenizes("1234", new IntegerToken(1234));
     }
     @Test
+    public void checkCorrectTokenizedIntegerWithSpaceBefore() throws TokenizerException {
+        checkTokenizes(" 1234", new IntegerToken(1234));
+    }
+    @Test
+    public void checkCorrectTokenizedIntegerWithSpaceAfter() throws TokenizerException {
+        checkTokenizes("1234 ", new IntegerToken(1234));
+    }
+    @Test
+    public void checkCorrectTokenizedTwoIntegers() throws TokenizerException {
+        checkTokenizes("12 34", new IntegerToken(12), new IntegerToken(34));
+    }
+    @Test
     public void checkCorrectTokenizedString() throws TokenizerException {
         checkTokenizes("\"string\"", new StringToken("string"));
+    }
+    @Test
+    public void checkCorrectTokenizedTwoStrings() throws TokenizerException {
+        checkTokenizes("\"string\" \"string2\"",
+                new StringToken("string"),
+                new StringToken("string2"));
     }
     @Test
     public void checkCorrectTokenizedLParen() throws TokenizerException {
@@ -135,8 +153,20 @@ public class TokenTest {
         checkTokenizes("&&", new OperatorToken("&&"));
     }
     @Test
+    public void checkNotTokenizeSingleAnd() {
+        final String test = "&";
+        final Tokenizer testTokenizer = new Tokenizer(test);
+        Assertions.assertThrows(TokenizerException.class, testTokenizer::tokenize);
+    }
+    @Test
     public void checkCorrectTokenizedOr() throws TokenizerException {
         checkTokenizes("||", new OperatorToken("||"));
+    }
+    @Test
+    public void checkNotTokenizeSingleBar() {
+        final String test = "|";
+        final Tokenizer testTokenizer = new Tokenizer(test);
+        Assertions.assertThrows(TokenizerException.class, testTokenizer::tokenize);
     }
     @Test
     public void checkCorrectTokenizedGreaterThanEquals() throws TokenizerException {
@@ -159,8 +189,15 @@ public class TokenTest {
         checkTokenizes(";", new SemiColonToken());
     }
     @Test
-    public void checkThrowsExceptions() {
+    public void checkThrowsExceptionWhitespaceInput() {
         final String testString = " ";
+        final Tokenizer testTokenizer = new Tokenizer(testString);
+        Assertions.assertThrows(TokenizerException.class,
+                testTokenizer::tokenize);
+    }
+    @Test
+    public void checkThrowsExceptionEmptyInput() {
+        final String testString = "";
         final Tokenizer testTokenizer = new Tokenizer(testString);
         Assertions.assertThrows(TokenizerException.class,
                 testTokenizer::tokenize);
