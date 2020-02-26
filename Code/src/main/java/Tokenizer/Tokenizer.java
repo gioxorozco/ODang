@@ -132,12 +132,18 @@ public class Tokenizer {
                     return new ExtendsToken();
                 case "String":
                     return new StringTypeToken();
+                case "this":
+                    return new ThisToken();
                 case "char":
                     return new CharTypeToken();
                 case "int":
                     return new IntTypeToken();
                 case "boolean":
                     return new BooleanTypeToken();
+                case "println":
+                    return new PrintlnToken();
+                case "void":
+                    return new VoidToken();
                 default:
                     return new IdentifierToken(letters);
             }
@@ -178,7 +184,7 @@ public class Tokenizer {
         String digits = "";
 
         //special case for negative numbers
-        if (validPosition() && input[inputPos] == '-') {
+        if (validPosition() && input[inputPos] == '-') {// Test whether or not this includes the subtraction operator
             digits += input[inputPos];
             inputPos++;
         }

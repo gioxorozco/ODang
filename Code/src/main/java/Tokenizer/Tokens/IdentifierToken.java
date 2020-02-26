@@ -9,7 +9,7 @@ public class IdentifierToken implements Token {
 
     public boolean equals(final Object other) {
         if (other instanceof IdentifierToken) {
-            IdentifierToken otherVal = (IdentifierToken) other;
+            final IdentifierToken otherVal = (IdentifierToken) other;
             return name.equals(otherVal.name);
         } else
             return false;

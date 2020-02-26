@@ -9,7 +9,7 @@ public class IntegerToken implements Token {
 
     public boolean equals(final Object other) {
         if (other instanceof IntegerToken) {
-            IntegerToken otherVal = (IntegerToken) other;
+            final IntegerToken otherVal = (IntegerToken) other;
             return number == otherVal.number;
         } else
             return false;

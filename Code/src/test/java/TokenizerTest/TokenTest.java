@@ -85,6 +85,18 @@ public class TokenTest {
         checkTokenizes("while", new WhileToken());
     }
     @Test
+    public void checkCorrectTokenizedVoid() throws TokenizerException {
+        checkTokenizes("void", new VoidToken());
+    }
+    @Test
+    public void checkCorrectTokenizedPrintln() throws TokenizerException {
+        checkTokenizes("println", new PrintlnToken());
+    }
+    @Test
+    public void checkCorrectTokenizedThis() throws TokenizerException {
+        checkTokenizes("this", new ThisToken());
+    }
+    @Test
     public void checkCorrectTokenizedNewToken() throws TokenizerException {
         checkTokenizes("new", new NewToken());
     }
